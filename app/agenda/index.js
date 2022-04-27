@@ -23,7 +23,15 @@ export const defineAgendaTasks = () => {
     });
 
     agenda.define('sendAnnouncement', async (job) => {
-        const { message } = job.attrs.data;
+        const { message, channel } = job.attrs.data;
+        try {
+            let announceChannel = await CLIENT.channels.fetch(channel);
+            await announceChannel.send(`@everyone ${message}`);
+            await job.remove();
+
+        } catch (e) {
+
+        }
     });
 
 };

@@ -1,13 +1,15 @@
 import { SlashCommandBuilder } from '@discordjs/builders';
+import { commandHandler } from './handler.js';
+import { agenda, log } from '../../index.js';
 
 // TODO
 
 export const ANNOUNCEMENTS = {
     announcements: {
         data: new SlashCommandBuilder()
-            .setName('announcement')
+            .setName('announcements')
             .setDescription('Set an announcement')
-            // .setDefaultPermission(false)
+            .setDefaultPermission(false)
             .addSubcommand(add =>
                 add
                     .setName('add')
@@ -25,7 +27,17 @@ export const ANNOUNCEMENTS = {
                             .setRequired(true)
                     )
             ),
-        execute: (interaction) => {
+        execute: async (interaction) => {
+            await commandHandler(interaction, {
+                    add: async (what, when) => {
+                        await agenda.schedule(when, 'sendAnnouncement', {
+                            message: what,
+                            channel: interaction.channelId
+                        });
+                        await interaction.reply('Okay! Announcement set.');
+                    }
+                }
+            );
 
         }
     }

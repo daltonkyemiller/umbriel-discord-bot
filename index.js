@@ -14,8 +14,8 @@ dotenv.config();
 const clientId = process.env.DISCORD_TESTING_CLIENT;
 const token = process.env.DISCORD_TOKEN;
 const mongoConnectionStr = `mongodb+srv://admin:${process.env.MONGO_PASS}@cluster0.2agzp.mongodb.net/${process.env.MONGO_DB}`;
-export const agenda = new Agenda({ db: { address: mongoConnectionStr } });
 
+export const agenda = new Agenda({ db: { address: mongoConnectionStr } });
 
 export const log = new Logger({
     name: 'MainLogger',
@@ -27,7 +27,6 @@ export const log = new Logger({
     minLevel: 'trace',
     displayTypes: true,
 });
-
 
 export const __dirname = dirname(fileURLToPath(import.meta.url));
 
