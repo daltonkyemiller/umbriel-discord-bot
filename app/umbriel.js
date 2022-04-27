@@ -1,21 +1,18 @@
 import { COMMANDS, onMessageCreate } from './commands/index.js';
 import { join } from 'path';
 import { CLIENT, log, __dirname } from '../index.js';
+import { defineAgendaTasks } from './agenda/index.js';
 
 export class Umbriel {
     db;
 
     constructor() {
+        defineAgendaTasks();
         this.start();
     }
 
     start() {
         this.listen();
-
-    }
-
-    dbConnect() {
-
     }
 
     listen() {
@@ -30,6 +27,7 @@ export class Umbriel {
 
         CLIENT.on('interactionCreate', async interaction => {
             if (!interaction.isCommand()) return;
+
             let command = CLIENT.commands.get(interaction.commandName);
             if (!command) return log.warn('Command doesn\'t exist');
             try {
@@ -39,6 +37,7 @@ export class Umbriel {
             }
         });
     }
+
 
     removeListeners() {
         CLIENT.removeAllListeners();

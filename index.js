@@ -28,10 +28,6 @@ export const log = new Logger({
     displayTypes: true,
 });
 
-agenda.define('logMessage', async (job) => {
-    await log.warn('hello!');
-});
-
 
 export const __dirname = dirname(fileURLToPath(import.meta.url));
 
@@ -46,9 +42,9 @@ CLIENT.commands = new Collection();
 
 const commands = [];
 
-for (let commandsKey in COMMANDS) {
-    commands.push(COMMANDS[commandsKey].data.toJSON());
-    CLIENT.commands.set(COMMANDS[commandsKey].data.name, COMMANDS[commandsKey]);
+for (let key in COMMANDS) {
+    commands.push(COMMANDS[key].data.toJSON());
+    let cmd = await CLIENT.commands.set(COMMANDS[key].data.name, COMMANDS[key]);
 }
 
 const rest = new REST({ version: '9' }).setToken(token);
@@ -58,17 +54,17 @@ const rest = new REST({ version: '9' }).setToken(token);
     try {
         log.info('Started refreshing application (/) commands.');
 
-        let res = await rest.put(
+        await rest.put(
             Routes.applicationCommands(clientId),
             { body: commands },
         );
+
 
         log.info('Successfully reloaded application (/) commands.');
     } catch (error) {
         log.error(error);
     }
 })();
-
 
 export let umbriel;
 if (!umbriel) {
