@@ -7,11 +7,15 @@ import { Umbriel } from './app/umbriel.js';
 import { dirname } from 'path';
 import { fileURLToPath } from 'url';
 import { COMMANDS } from './app/commands/index.js';
+import { Agenda } from 'agenda';
 
 dotenv.config();
 
 const clientId = process.env.DISCORD_TESTING_CLIENT;
 const token = process.env.DISCORD_TOKEN;
+const mongoConnectionStr = `mongodb+srv://admin:${process.env.MONGO_PASS}@cluster0.2agzp.mongodb.net/${process.env.MONGO_DB}`;
+export const agenda = new Agenda({ db: { address: mongoConnectionStr } });
+
 
 export const log = new Logger({
     name: 'MainLogger',
@@ -23,6 +27,12 @@ export const log = new Logger({
     minLevel: 'trace',
     displayTypes: true,
 });
+
+agenda.define('logMessage', async (job) => {
+    await log.warn('hello!');
+});
+
+
 export const __dirname = dirname(fileURLToPath(import.meta.url));
 
 // Instantiate a new client with some necessary parameters.
@@ -44,6 +54,7 @@ for (let commandsKey in COMMANDS) {
 const rest = new REST({ version: '9' }).setToken(token);
 
 (async () => {
+    await agenda.start();
     try {
         log.info('Started refreshing application (/) commands.');
 

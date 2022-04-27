@@ -35,7 +35,7 @@ export const TESTS = {
                     )),
         execute: async (interaction) => {
             let cmdName = interaction.options.data.name;
-            
+
         }
     },
 

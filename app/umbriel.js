@@ -1,6 +1,5 @@
 import { COMMANDS, onMessageCreate } from './commands/index.js';
 import { join } from 'path';
-import { Low, JSONFile } from 'lowdb';
 import { CLIENT, log, __dirname } from '../index.js';
 
 export class Umbriel {
@@ -11,15 +10,12 @@ export class Umbriel {
     }
 
     start() {
-        this.dbConnect();
         this.listen();
 
     }
 
     dbConnect() {
-        const file = join(__dirname, 'db.json');
-        const adapter = new JSONFile(file);
-        this.db = new Low(adapter);
+
     }
 
     listen() {
