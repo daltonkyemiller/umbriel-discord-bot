@@ -1,6 +1,6 @@
-import { log } from '../../index.js';
-
 // Note: no validation being done because Discord does that for us
+
+import { log } from '../../index.js';
 
 /**
  * Takes an interaction and a set of handlers, and then calls the handler that matches the interaction's command name
@@ -8,7 +8,9 @@ import { log } from '../../index.js';
  * @param {Object} handlers - An object containing all the command handlers.
  */
 export const commandHandler = async (interaction, handlers) => {
-    let cmdName = interaction.options.data[0].name;
+    let cmdName = interaction.commandName;
+    let subCommandName = interaction.options.data[0].name;
     let cmdOptions = interaction.options.data[0].options.map(option => option.value);
-    handlers[cmdName](...cmdOptions);
+    log.info(`${interaction.user.username} used the ${cmdName} command`);
+    handlers[subCommandName](...cmdOptions);
 };

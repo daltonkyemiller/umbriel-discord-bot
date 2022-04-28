@@ -1,16 +1,16 @@
-import { REMINDERS } from './reminder.js';
+import { REMINDERS } from './reminders.js';
 import { log } from '../../index.js';
 import { ANNOUNCEMENTS } from './announcements.js';
+import { STATS } from './stats.js';
 
 
 export const COMMANDS = {
     ...ANNOUNCEMENTS,
     ...REMINDERS,
+    ...STATS
 };
 
-export const onMessageCreate = (msg) => {
-    let senderPerms = msg.member.permissionsIn(msg.channel).toArray();
-};
+
 
 
 
