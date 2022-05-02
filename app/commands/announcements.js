@@ -1,6 +1,6 @@
 import { SlashCommandBuilder } from '@discordjs/builders';
 import { commandHandler } from './handler.js';
-import { agenda, log } from '../../index.js';
+import { AGENDA, log } from '../../index.js';
 import { getJobs } from '../agenda/index.js';
 
 // Announcement is different from reminder in that is sends a message to the channel tagging everyone vs DMing.
@@ -51,7 +51,7 @@ export const ANNOUNCEMENTS = {
         execute: async (interaction) => {
             await commandHandler(interaction, {
                     add: async (what, when) => {
-                        await agenda.schedule(when, 'sendAnnouncement', {
+                        await AGENDA.schedule(when, 'sendAnnouncement', {
                             message: what,
                             channel: interaction.channelId
                         });

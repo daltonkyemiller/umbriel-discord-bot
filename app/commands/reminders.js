@@ -1,5 +1,5 @@
 import { getRandomResponse, randomBetween } from '../utils/index.js';
-import { agenda, DISCORD_CLIENT, log } from '../../index.js';
+import { AGENDA, log, umbriel } from '../../index.js';
 import { SlashCommandBuilder } from '@discordjs/builders';
 import { getJobs } from '../agenda/index.js';
 import { commandHandler } from './handler.js';
@@ -53,7 +53,7 @@ export const REMINDERS = {
             await commandHandler(interaction, {
                 add: async (what, when) => {
                     try {
-                        await agenda.schedule(when, 'sendDM', {
+                        await AGENDA.schedule(when, 'sendDM', {
                             userId: interaction.user.id,
                             message: what
                         });
@@ -86,7 +86,6 @@ export const REMINDERS = {
                         log.error(e);
                         interaction.reply(getRandomResponse(ERROR_RESPONSES));
                     }
-
                 }
             });
         }

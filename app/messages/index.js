@@ -1,9 +1,12 @@
 import { updateUser } from '../db/index.js';
-import { log } from '../../index.js';
 
 export * from './responses.js';
 
 export const messageHandler = async (msg) => {
+    await updateUserChatStats(msg);
+};
+
+const updateUserChatStats = async (msg) => {
     let msgAttachementsLength = Array.from(msg.attachments).filter(msg => msg[1].contentType.includes('image')).length;
     await updateUser(msg.author, {
         $inc: {

@@ -1,5 +1,5 @@
-import { DISCORD_CLIENT, log } from '../../index.js';
-import { agenda } from '../../index.js';
+import { umbriel, log } from '../../index.js';
+import { AGENDA } from '../../index.js';
 
 export const getJobs = async ({ userId, jobName }) => {
     let query = {
@@ -8,13 +8,13 @@ export const getJobs = async ({ userId, jobName }) => {
             userId ? { 'data.userId': userId } : {}
         ]
     };
-    return await agenda.jobs(query);
+    return await AGENDA.jobs(query);
 };
 
 export const defineAgendaTasks = () => {
-    agenda.define('sendDM', async (job) => {
+    AGENDA.define('sendDM', async (job) => {
         const { userId, message } = job.attrs.data;
-        let user = await DISCORD_CLIENT.users.fetch(userId);
+        let user = await umbriel.discordClient.users.fetch(userId);
         try {
             await user.send(message);
             await job.remove();
@@ -23,10 +23,10 @@ export const defineAgendaTasks = () => {
         }
     });
 
-    agenda.define('sendAnnouncement', async (job) => {
+    AGENDA.define('sendAnnouncement', async (job) => {
         const { message, channel } = job.attrs.data;
         try {
-            let announceChannel = await DISCORD_CLIENT.channels.fetch(channel);
+            let announceChannel = await umbriel.discordClient.channels.fetch(channel);
             await announceChannel.send(`@everyone ${message}`);
             await job.remove();
 

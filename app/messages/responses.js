@@ -6,4 +6,3 @@ export const ERROR_RESPONSES = [
     'Sorry, could\'t complete your request',
     'Oopsies, I can\'t do that one right now'
 ];
-
