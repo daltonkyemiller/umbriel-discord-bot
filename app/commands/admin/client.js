@@ -1,14 +1,14 @@
 import { SlashCommandBuilder } from '@discordjs/builders';
-import { restart, umbriel } from '../../index.js';
+import { restart, umbriel } from '../../../index.js';
 
-export const ADMIN_COMMANDS = {
-    kill: {
+export const CLIENT_COMMANDS = {
+    restart: {
         data: new SlashCommandBuilder()
-            .setName('kill')
+            .setName('restart')
             .setDescription('Restarts the bot')
             .setDefaultPermission(false),
         execute: async (interaction) => {
-            await interaction.reply('aaahahhh why me');
+            await interaction.reply('Restarting...');
             await restart();
         }
     }

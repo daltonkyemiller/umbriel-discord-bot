@@ -53,7 +53,7 @@ export const ANNOUNCEMENTS = {
                     add: async (what, when) => {
                         await AGENDA.schedule(when, 'sendAnnouncement', {
                             message: what,
-                            channel: interaction.channelId
+                            channelId: interaction.channelId
                         });
                         await interaction.reply('Okay! Announcement set.');
                     },

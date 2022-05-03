@@ -1,7 +1,8 @@
 import { SlashCommandBuilder } from '@discordjs/builders';
 import { commandHandler } from './handler.js';
-import { stat } from 'fs';
 import { fetchUser } from '../db/index.js';
+import { MessageEmbed } from 'discord.js';
+import { stat } from 'fs';
 
 export const STATS = {
     stats: {
@@ -17,14 +18,15 @@ export const STATS = {
             await commandHandler(interaction, {
                 view: async () => {
                     let user = await fetchUser(interaction.user);
-                    interaction.reply(formatUserStats(user));
+                    interaction.reply({ embeds: [embedStatsOutput(user)] });
                 }
             });
         }
     }
 };
 
-const formatUserStats = (user) => {
-    let statsOutput = `**Your Stats Are:**\nCharacters Typed: ${user.chatStats.charsTyped}\nWords Typed: ${user.chatStats.wordsTyped}\nImages Sent: ${user.chatStats.imagesSent}`;
+const embedStatsOutput = (user) => {
+    let stats = `Characters Typed: ${user.chatStats.charsTyped}\nWords Typed: ${user.chatStats.wordsTyped}\nImages Sent: ${user.chatStats.imagesSent}`;
+    let statsOutput = new MessageEmbed().setTitle('Your Stats').setColor('RED').setDescription(stats);
     return statsOutput;
 };

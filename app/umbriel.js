@@ -1,41 +1,43 @@
 import { COMMANDS } from './commands/index.js';
 import { messageHandler } from './messages/index.js';
-import { log, AGENDA, DISCORD_CLIENT_ID, DISCORD_TOKEN, MONGO_CONNECTION_URI } from '../index.js';
+import { log, AGENDA, DISCORD_CLIENT_ID, DISCORD_TOKEN, MONGO_CONNECTION_URI, DISCORD_CLIENT } from '../index.js';
 import { defineAgendaTasks } from './agenda/index.js';
 import { REST } from '@discordjs/rest';
 import { Routes } from 'discord-api-types/v9';
 import mongoose from 'mongoose';
-import { Client as DiscordClient, Collection, Intents } from 'discord.js';
+import { Collection } from 'discord.js';
 
 export class Umbriel {
     constructor() {
         this.commands = [];
-        this.discordClient = new DiscordClient({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES] });
     }
 
     async init() {
-        await this.discordClient.login(DISCORD_TOKEN);
+        this.registerListeners();
         await this.registerCommands();
         await AGENDA.start();
         defineAgendaTasks();
         await this.dbConnect();
-        this.listen();
+
     }
 
+    // Force kill processes used by Umbriel
     async killProcesses() {
-        await this.discordClient.destroy();
+        await DISCORD_CLIENT.destroy();
     }
 
 
-    listen() {
-        this.discordClient.on('ready', (client) => {
+    registerListeners() {
+        // When the bot logs in successfully
+        DISCORD_CLIENT.on('ready', (client) => {
             log.info(`Logged in as ${client.user.tag}`);
             client.user.setActivity('CODING', {
                 type: 'WATCHING',
             });
         });
 
-        this.discordClient.on('messageCreate', async (msg) => {
+        // When a message is created on the server
+        DISCORD_CLIENT.on('messageCreate', async (msg) => {
             // Ignore bot messages
             if (msg.author.bot) return;
 
@@ -43,10 +45,10 @@ export class Umbriel {
             await messageHandler(msg);
         });
 
-        this.discordClient.on('interactionCreate', async interaction => {
+        DISCORD_CLIENT.on('interactionCreate', async interaction => {
             // Only listen to command interactions, for now
             if (!interaction.isCommand()) return;
-            let command = this.discordClient.commands.get(interaction.commandName);
+            let command = DISCORD_CLIENT.commands.get(interaction.commandName);
 
             // Try to run custom execute function
             try {
@@ -57,6 +59,7 @@ export class Umbriel {
         });
     }
 
+    // Set up mongoose connection
     async dbConnect() {
         try {
             await mongoose.connect(MONGO_CONNECTION_URI);
@@ -66,13 +69,13 @@ export class Umbriel {
         }
     }
 
+    // Register all of our custom commands, runs every time the bot starts
     async registerCommands() {
-        this.discordClient.commands = new Collection();
+        DISCORD_CLIENT.commands = new Collection();
 
-        // Register all of our custom commands, runs every time the bot starts
         for (let key in COMMANDS) {
             this.commands.push(COMMANDS[key].data.toJSON());
-            await this.discordClient.commands.set(COMMANDS[key].data.name, COMMANDS[key]);
+            await DISCORD_CLIENT.commands.set(COMMANDS[key].data.name, COMMANDS[key]);
         }
 
         const rest = new REST({ version: '9' }).setToken(DISCORD_TOKEN);
