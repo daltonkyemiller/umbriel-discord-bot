@@ -9,8 +9,16 @@ import { log } from '../../index.js';
  */
 export const commandHandler = async (interaction, handlers) => {
     let cmdName = interaction.commandName;
+    let cmdOptions = interaction.options.data;
+
     let subCommandName = interaction.options.data[0].name;
-    let cmdOptions = interaction.options.data[0].options.map(option => option.value);
+    let subCommandOptions = interaction.options.data[0].options;
+
+    // If there are subcommand options, use them, if not, use main command options
+    let options = subCommandOptions
+        ? subCommandOptions.map(option => option.value)
+        : cmdOptions.map(option => option.value);
+
     log.info(`${interaction.user.username} used the ${cmdName} command`);
-    handlers[subCommandName](...cmdOptions);
+    handlers[subCommandName](...options);
 };
