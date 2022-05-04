@@ -1,5 +1,5 @@
-import { log, DISCORD_CLIENT } from '../../index.js';
-import { AGENDA } from '../../index.js';
+import { log, DISCORD_CLIENT } from '../../app.js';
+import { AGENDA } from '../../app.js';
 import { MessageEmbed } from 'discord.js';
 
 export const getJobs = async ({ userId, jobName }) => {

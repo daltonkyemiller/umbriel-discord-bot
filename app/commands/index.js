@@ -1,5 +1,5 @@
 import { REMINDERS } from './reminders.js';
-import { log } from '../../index.js';
+import { log } from '../../app.js';
 import { ANNOUNCEMENTS } from './announcements.js';
 import { STATS } from './stats.js';
 import { CLIENT_COMMANDS } from './admin/client.js';

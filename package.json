@@ -1,11 +1,12 @@
 {
   "name": "umbriel-discord-bot",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "app.js",
   "license": "MIT",
   "type": "module",
   "scripts": {
-    "dev": "nodemon index.js"
+    "start": "NODE_ENV=production node app.js",
+    "dev": "nodemon app.js"
   },
   "dependencies": {
     "@discordjs/builders": "^0.13.0",

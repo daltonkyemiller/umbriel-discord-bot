@@ -1,6 +1,6 @@
 import { COMMANDS } from './commands/index.js';
 import { messageHandler } from './messages/index.js';
-import { log, AGENDA, DISCORD_CLIENT_ID, DISCORD_TOKEN, MONGO_CONNECTION_URI, DISCORD_CLIENT } from '../index.js';
+import { log, AGENDA, DISCORD_CLIENT_ID, DISCORD_TOKEN, MONGO_CONNECTION_URI, DISCORD_CLIENT } from '../app.js';
 import { defineAgendaTasks } from './agenda/index.js';
 import { REST } from '@discordjs/rest';
 import { Routes } from 'discord-api-types/v9';

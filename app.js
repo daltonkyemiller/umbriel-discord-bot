@@ -7,8 +7,8 @@ import { Client as DiscordClient, Intents } from 'discord.js';
 
 dotenv.config();
 
-export const DISCORD_CLIENT_ID = process.env.DISCORD_TESTING_CLIENT;
-export const DISCORD_TOKEN = process.env.DISCORD_TOKEN;
+export const DISCORD_CLIENT_ID = process.env.NODE_ENV !== 'production' ? process.env.DISCORD_TESTING_CLIENT : process.env.DISCORD_PROD_CLIENT;
+export const DISCORD_TOKEN = process.env.NODE_ENV !== 'production' ? process.env.DISCORD_TESTING_TOKEN : process.env.DISCORD_PROD_TOKEN;
 export const DISCORD_CLIENT = new DiscordClient({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES] });
 
 
@@ -25,7 +25,6 @@ export const log = new Logger({
     minLevel: 'trace',
     displayTypes: true,
 });
-
 await DISCORD_CLIENT.login(DISCORD_TOKEN);
 
 

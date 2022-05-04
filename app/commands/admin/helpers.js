@@ -1,5 +1,5 @@
 import { SlashCommandBuilder } from '@discordjs/builders';
-import { log } from '../../../index.js';
+import { log } from '../../../app.js';
 import { commandHandler } from '../handler.js';
 
 export const HELPER_COMMANDS = {
@@ -14,13 +14,14 @@ export const HELPER_COMMANDS = {
                     .setDescription('How many messages to clear?')
                     .setRequired(true)
                     .setMinValue(1)
+                    .setMaxValue(100)
             ),
         execute: async (interaction) => {
             await commandHandler(interaction, {
                 number: async (number) => {
                     let messages = await interaction.channel.messages.fetch({ limit: number });
                     await messages.forEach(message => message.delete());
-                    interaction.reply(`${messages.size} message(s) deleted`);
+                    await interaction.reply(`${messages.size} message(s) deleted`);
                 }
             });
         }

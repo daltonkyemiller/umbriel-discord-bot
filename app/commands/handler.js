@@ -1,6 +1,6 @@
 // Note: no validation being done because Discord does that for us
 
-import { log } from '../../index.js';
+import { log } from '../../app.js';
 
 /**
  * Takes an interaction and a set of handlers, and then calls the handler that matches the interaction's command name

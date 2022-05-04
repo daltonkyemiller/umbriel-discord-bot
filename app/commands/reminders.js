@@ -1,5 +1,5 @@
 import { getRandomResponse, randomBetween } from '../utils/index.js';
-import { AGENDA, log, umbriel } from '../../index.js';
+import { AGENDA, log, umbriel } from '../../app.js';
 import { SlashCommandBuilder } from '@discordjs/builders';
 import { getJobs } from '../agenda/index.js';
 import { commandHandler } from './handler.js';

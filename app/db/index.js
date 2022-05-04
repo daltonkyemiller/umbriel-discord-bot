@@ -1,5 +1,5 @@
 import { userSchema } from './schema/user.js';
-import { log } from '../../index.js';
+import { log } from '../../app.js';
 
 export const fetchUser = async (user) => {
     let userDB = await userSchema.findOne({ id: user.id });

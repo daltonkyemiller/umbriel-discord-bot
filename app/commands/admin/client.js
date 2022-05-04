@@ -1,5 +1,5 @@
 import { SlashCommandBuilder } from '@discordjs/builders';
-import { restart, umbriel } from '../../../index.js';
+import { restart, umbriel } from '../../../app.js';
 
 export const CLIENT_COMMANDS = {
     restart: {
