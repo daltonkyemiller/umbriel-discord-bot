@@ -5,10 +5,17 @@ WORKDIR /usr/src/app
 
 COPY package*.json ./
 
-RUN yarn install
+ENV NODE_ENV=production
 
+ARG DISCORD_PROD_TOKEN
+ENV DISCORD_PROD_TOKEN=$DISCORD_PROD_TOKEN
+
+ARG DISCORD_PROD_CLIENT
+ENV DISCORD_PROD_CLIENT=$DISCORD_PROD_CLIENT
+
+RUN yarn install
 
 COPY . .
 
 EXPOSE 8080
-CMD [ "yarn", "run", "start" ]
+CMD [ "node", "app.js" ]
