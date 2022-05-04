@@ -7,9 +7,7 @@ on:
     branches: [ main ]
 
 jobs:
-
   build:
-
     runs-on: ubuntu-latest
 
     steps:
@@ -26,12 +24,10 @@ jobs:
         docker push daltonkyemiller/umbriel-bot:latest
   run:
     runs-on: ubuntu-latest
-    needs: [build]
+    needs: build
     
     steps:
       - name: Trigger DigitalOcean Deploy
-        run: |
+        run: | 
           curl -X POST https://api.digitalocean.com/v2/apps/${{ secrets.DIGITALOCEAN_APP_ID }}/deployments \
             -H 'Content-Type: application/json' -H 'Authorization: ${{ secrets.DIGITALOCEAN_AUTH_HEADER }}'
-        
-    
