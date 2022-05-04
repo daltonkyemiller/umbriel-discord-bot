@@ -1,0 +1,36 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Build the Docker image
+      run: docker build . --t daltonkyemiller/umbriel-bot:$(date +%s)
+    - name: Login to Docker Hub
+      uses: docker/login-action@v1.14.1
+      with:
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
+    - name: Pushes image to docker hub
+      run: | 
+        docker push daltonkyemiller/umbriel-bot:latest
+  run:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Trigger DigitalOcean Deploy
+        run: |
+          curl -X POST https://api.digitalocean.com/v2/apps/${{ secrets.DIGITALOCEAN_APP_ID }}/deployments \
+            -H 'Content-Type: application/json' -H 'Authorization: ${{ secrets.DIGITALOCEAN_AUTH_HEADER }}'
+        
+    
