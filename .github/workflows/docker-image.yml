@@ -28,5 +28,5 @@ jobs:
     steps:
       - name: Trigger DigitalOcean Deploy
         run: |
-          curl -X POST https://api.digitalocean.com/v2/apps/${{ secrets.DIGITALOCEAN_APP_ID }}/deployments \
+          curl -sIXGET -X POST https://api.digitalocean.com/v2/apps/${{ secrets.DIGITALOCEAN_APP_ID }}/deployments \
           -H 'Content-Type: application/json' -H 'Authorization: Bearer ${{ secrets.DIGITALOCEAN_TOKEN }}'
