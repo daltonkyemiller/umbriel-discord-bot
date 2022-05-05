@@ -30,6 +30,6 @@ jobs:
       uses: jjst/action-digitalocean-deploy-app@v2
       with:
         # A DigitalOcean personal access token
-        token: ${{ DIGITALOCEAN_TOKEN }}
+        token: ${{ secrets.DIGITALOCEAN_TOKEN }}
         # ID of the app to update
-        app-id: ${{ DIGITALOCEAN_APP_ID }}
+        app-id: ${{ secrets.DIGITALOCEAN_APP_ID }}
