@@ -26,10 +26,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: build
     steps:
-    - name: Digital Ocean Deploy App
-      uses: jjst/action-digitalocean-deploy-app@v2
-      with:
-        # A DigitalOcean personal access token
-        token: ${{ secrets.DIGITALOCEAN_TOKEN }}
-        # ID of the app to update
-        app-id: ${{ secrets.DIGITALOCEAN_APP_ID }}
+      - name: Trigger DigitalOcean Deploy
+        run: |
+          curl -X POST https://api.digitalocean.com/v2/apps/${{ secrets.DIGITALOCEAN_APP_ID }}/deployments \
+          -H 'Content-Type: application/json' -H 'Authorization: Bearer ${{ secrets.DIGITALOCEAN_TOKEN }}'
