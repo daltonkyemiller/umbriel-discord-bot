@@ -4,13 +4,15 @@ import { ANNOUNCEMENTS } from './announcements.js';
 import { STATS } from './stats.js';
 import { CLIENT_COMMANDS } from './admin/client.js';
 import { ADMIN_COMMANDS } from './admin/index.js';
+import { LEADERBOARD } from './leaderboard.js';
 
 
 export const COMMANDS = {
     ...ANNOUNCEMENTS,
     ...REMINDERS,
     ...STATS,
-    ...ADMIN_COMMANDS
+    ...ADMIN_COMMANDS,
+    ...LEADERBOARD
 };
 
 

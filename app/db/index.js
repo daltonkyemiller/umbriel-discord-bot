@@ -1,8 +1,8 @@
 import { userSchema } from './schema/user.js';
-import { log } from '../../app.js';
 
 export const fetchUser = async (user) => {
     let userDB = await userSchema.findOne({ id: user.id });
+    
     // If no user found, create one
     if (!userDB) {
         userDB = new userSchema({

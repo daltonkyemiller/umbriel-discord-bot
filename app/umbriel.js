@@ -12,6 +12,7 @@ export class Umbriel {
         this.commands = [];
     }
 
+    // Initialize
     async init() {
         this.registerListeners();
         await this.registerCommands();

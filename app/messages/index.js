@@ -1,8 +1,10 @@
 import { updateUser } from '../db/index.js';
+import { DISCORD_CLIENT } from '../../app.js';
 
 export * from './responses.js';
 
 export const messageHandler = async (msg) => {
+    if (msg.mentions.has(DISCORD_CLIENT.user)) await msg.reply('WHAT??');
     await updateUserChatStats(msg);
 };
 
