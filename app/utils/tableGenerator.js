@@ -21,9 +21,7 @@ const reduceObjToLikeKeys = (arrOfObjs) => {
 
 export const tableGenerator = (arr) => {
     const { arrWithLikeKeys, likeKeys, objectWithValsAsArray } = reduceObjToLikeKeys(arr);
-
-    const allStrs = likeKeys.concat(...arrWithLikeKeys.map(obj => Object.values(obj)));
-    let table = '';
+    let table = '\n';
 
     const longestStrInArray = (arr, padding = 0) => Math.max(...arr.map(str => String(str).length)) + padding;
 
@@ -36,7 +34,8 @@ export const tableGenerator = (arr) => {
     };
 
 
-    let headers = likeKeys.map(key => formattedString(key, longestStrInArray(objectWithValsAsArray[key], 3)));
+    let headers = likeKeys.map(key => formattedString(key, longestStrInArray([key, ...objectWithValsAsArray[key]], 3)));
+    console.log(headers);
     let divider = '';
 
     headers.forEach((header, idx) => divider += `${idx === 0 ? '+' : ''}${'-'.repeat(header.length)}+`);
@@ -44,7 +43,7 @@ export const tableGenerator = (arr) => {
     headers.forEach((header, idx) => table += `${idx === 0 ? '|' : ''}${header}|`);
     table += '\n';
     arrWithLikeKeys.forEach((val, idx) => {
-        let formattedVals = val.map((el, elIdx) => formattedString(el, longestStrInArray(objectWithValsAsArray[likeKeys[elIdx]], 3)));
+        let formattedVals = val.map((el, elIdx) => formattedString(el, longestStrInArray([likeKeys[elIdx], ...objectWithValsAsArray[likeKeys[elIdx]]], 3)));
         table += divider + '\n';
         table += `|${formattedVals.join('|')}|\n`;
     });
@@ -52,6 +51,25 @@ export const tableGenerator = (arr) => {
     return table;
 
 };
+
+
+console.log(tableGenerator([
+        {
+            username: 'dalton',
+            wordsTyped: 2,
+            charsTyped: 28,
+            imagesSent: 0,
+            linksSent: 0
+        },
+        {
+            username: 'Kagi',
+            wordsTyped: 1,
+            charsTyped: 8,
+            imagesSent: 0,
+            linksSent: 0
+        }
+    ]
+));
 
 // console.log(tableGenerator(
 //     [

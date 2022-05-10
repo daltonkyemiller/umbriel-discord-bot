@@ -10,8 +10,9 @@ export const LEADERBOARD = {
             .setName('leaderboard')
             .setDescription('Shows Leaderboard'),
         execute: async (interaction) => {
-            const userData = await userSchema.find({}, 'username chatStats').lean();
-            await interaction.reply('```' + tableGenerator(userData) + '```');
+            const userData = await userSchema.find({}, 'username chatStats').lean().exec();
+            const flattenedData = userData.map(user => flattenObj(user));
+            await interaction.reply('```' + tableGenerator(flattenedData) + '```');
         }
     }
 };
