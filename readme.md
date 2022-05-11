@@ -14,9 +14,9 @@ Uses [yarn](https://classic.yarnpkg.com/lang/en/docs/install) for package manage
   `git clone https://github.com/daltonkyemiller/umbriel-discord-bot.git`
 - Create .env file in root. Configure variables. DISCORD_ variables can be found
   at https://discord.com/developers/applications
-  `DISCORD_TESTING_TOKEN='YOUR DISCORD SECRET HERE'`
-  `DISCORD_TESTING_CLIENT='YOUR BOT CLIENT ID HERE'`
-  `MONGO_URI='YOUR MONGODB CONNECTION URI HERE`
+    - `DISCORD_TESTING_TOKEN='YOUR DISCORD SECRET HERE'`
+    - `DISCORD_TESTING_CLIENT='YOUR BOT CLIENT ID HERE'`
+    - `MONGO_URI='YOUR MONGODB CONNECTION URI HERE`
 - Start server
   `yarn run dev` (uses nodemon and auto-restarts server on change)
   or
