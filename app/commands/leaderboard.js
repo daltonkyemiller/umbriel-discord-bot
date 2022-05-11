@@ -43,7 +43,6 @@ export const LEADERBOARD = {
                         await interaction.channel.send('```' + tableGenerator(chunk) + '```');
                     }
                     await interaction.reply(getRandomResponse(POSITIVE_RESPONSES));
-
                 }
             });
         }

@@ -28,6 +28,7 @@ export const defineAgendaTasks = () => {
         const { message, channelId } = job.attrs.data;
         try {
             let announceChannel = await DISCORD_CLIENT.channels.cache.get(channelId);
+            await announceChannel.send('@everyone');
             await announceChannel.send(
                 {
                     embeds:
