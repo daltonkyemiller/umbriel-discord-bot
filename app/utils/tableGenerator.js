@@ -1,21 +1,35 @@
-// AHAHAHAHAHAHAHAHAHHAHAHAHAHAHA
+// THIS ONE HURT ME
 
 
+/**
+ * It takes an array of objects and returns an object with the keys of the objects that are the same and the values of
+ * those keys as an array of the values of those keys
+ * @param arrOfObjs - an array of objects
+ * @returns An object with three properties:
+ *     arrWithLikeKeys: an array of arrays, each sub-array containing the values of the like keys
+ *     likeKeys: an array of the like keys
+ *     objectWithValsAsArray: an object with the like keys as properties and the values as arrays of the values of the like
+ * keys
+ */
 const reduceObjToLikeKeys = (arrOfObjs) => {
     const arrOfKeys = arrOfObjs.map(obj => Object.keys(obj));
-    const commonKeys = arrOfKeys.reduce((acc, curr) => {
+    const likeKeys = arrOfKeys.reduce((acc, curr) => {
         return curr.filter(el => acc.includes(el));
     });
-    const objectsWithLikeKeys = arrOfObjs.map(obj => commonKeys.map(key => obj[key]));
+    const arrWithLikeKeys = arrOfObjs.map(obj => likeKeys.map(key => obj[key]));
 
     const objectWithValsAsArray = {};
-    commonKeys.forEach((key, keyIdx) => {
+    likeKeys.forEach((key, keyIdx) => {
         objectWithValsAsArray[key] = [];
-        objectsWithLikeKeys.forEach((likeKeyObj) => objectWithValsAsArray[key].push(likeKeyObj[keyIdx]));
+        arrWithLikeKeys.forEach((likeKeyObj) => objectWithValsAsArray[key].push(likeKeyObj[keyIdx]));
     });
 
 
-    return { arrWithLikeKeys: objectsWithLikeKeys, likeKeys: commonKeys, objectWithValsAsArray: objectWithValsAsArray };
+    return {
+        arrWithLikeKeys: arrWithLikeKeys,
+        likeKeys: likeKeys,
+        objectWithValsAsArray: objectWithValsAsArray
+    };
 };
 
 
@@ -35,15 +49,17 @@ export const tableGenerator = (arr) => {
 
 
     let headers = likeKeys.map(key => formattedString(key, longestStrInArray([key, ...objectWithValsAsArray[key]], 3)));
-    console.log(headers);
     let divider = '';
 
+    // Formatting divider
     headers.forEach((header, idx) => divider += `${idx === 0 ? '+' : ''}${'-'.repeat(header.length)}+`);
+
+    // Adding a divider and newline character to top of table
     table += divider + '\n';
     headers.forEach((header, idx) => table += `${idx === 0 ? '|' : ''}${header}|`);
     table += '\n';
     arrWithLikeKeys.forEach((val, idx) => {
-        let formattedVals = val.map((el, elIdx) => formattedString(el, longestStrInArray([likeKeys[elIdx], ...objectWithValsAsArray[likeKeys[elIdx]]], 3)));
+        const formattedVals = val.map((el, elIdx) => formattedString(el, longestStrInArray([likeKeys[elIdx], ...objectWithValsAsArray[likeKeys[elIdx]]], 3)));
         table += divider + '\n';
         table += `|${formattedVals.join('|')}|\n`;
     });
@@ -51,62 +67,4 @@ export const tableGenerator = (arr) => {
     return table;
 
 };
-
-
-console.log(tableGenerator([
-        {
-            username: 'dalton',
-            wordsTyped: 2,
-            charsTyped: 28,
-            imagesSent: 0,
-            linksSent: 0
-        },
-        {
-            username: 'Kagi',
-            wordsTyped: 1,
-            charsTyped: 8,
-            imagesSent: 0,
-            linksSent: 0
-        }
-    ]
-));
-
-// console.log(tableGenerator(
-//     [
-//         {
-//             id: 1,
-//             one: 'ssssssssomething',
-//             two: 'somethingaksd',
-//             three: 'test',
-//         },
-//         {
-//             id: 2,
-//             one: 'wowow',
-//             two: 'woa',
-//             three: 'aa',
-//         },
-//         {
-//             id: 3,
-//             one: 'nononno',
-//             two: 'l',
-//             three: 'l',
-//             four: 'l',
-//         },
-//         {
-//             id: 4,
-//             one: 'nononno',
-//             two: 'l',
-//             three: 'l',
-//             four: 'l',
-//         },
-//         {
-//             id: 5,
-//             one: 'testing',
-//             two: 'lavva',
-//             three: 'lasdasd;k',
-//             four: 'l',
-//         }
-//     ]
-// ));
-//
 

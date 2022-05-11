@@ -10,7 +10,7 @@ export const LEADERBOARD = {
             .setName('leaderboard')
             .setDescription('Shows Leaderboard'),
         execute: async (interaction) => {
-            const userData = await userSchema.find({}, 'username chatStats').lean().exec();
+            const userData = await userSchema.find({}, 'username chatStats').sort('-chatStats.charsTyped').lean();
             const flattenedData = userData.map(user => flattenObj(user));
             await interaction.reply('```' + tableGenerator(flattenedData) + '```');
         }
