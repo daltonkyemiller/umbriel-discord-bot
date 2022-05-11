@@ -6,3 +6,9 @@ export const ERROR_RESPONSES = [
     'Sorry, could\'t complete your request',
     'Oopsies, I can\'t do that one right now'
 ];
+
+export const POSITIVE_RESPONSES = [
+    'Okay, can do!',
+    'Alright, done.',
+    'Got it.'
+];
