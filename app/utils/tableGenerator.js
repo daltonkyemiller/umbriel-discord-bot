@@ -47,8 +47,8 @@ export const tableGenerator = (arr) => {
         return whiteSpaceLeft + string + whiteSpaceRight;
     };
 
-
-    let headers = likeKeys.map(key => formattedString(key, longestStrInArray([key, ...objectWithValsAsArray[key]], 3)));
+    const tablePadding = 0;
+    let headers = likeKeys.map(key => formattedString(key, longestStrInArray([key, ...objectWithValsAsArray[key]], tablePadding)));
     let divider = '';
 
     // Formatting divider
@@ -59,7 +59,7 @@ export const tableGenerator = (arr) => {
     headers.forEach((header, idx) => table += `${idx === 0 ? '|' : ''}${header}|`);
     table += '\n';
     arrWithLikeKeys.forEach((val, idx) => {
-        const formattedVals = val.map((el, elIdx) => formattedString(el, longestStrInArray([likeKeys[elIdx], ...objectWithValsAsArray[likeKeys[elIdx]]], 3)));
+        const formattedVals = val.map((el, elIdx) => formattedString(el, longestStrInArray([likeKeys[elIdx], ...objectWithValsAsArray[likeKeys[elIdx]]], tablePadding)));
         table += divider + '\n';
         table += `|${formattedVals.join('|')}|\n`;
     });
