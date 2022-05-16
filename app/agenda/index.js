@@ -52,10 +52,11 @@ export const defineAgendaTasks = () => {
         const channel = await DISCORD_CLIENT.channels.cache.get(channelId);
         const message = await channel.messages.cache.get(poll);
 
+
         // Gets poll with most votes
         const winner = pollObjs.reduce((acc, curr) => {
-            const accCount = message.reactions.resolve(acc.emoji).count;
-            const currCount = message.reactions.resolve(curr.emoji).count;
+            const accCount = message.reactions.cache.get(acc.emoji.id).count;
+            const currCount = message.reactions.cache.get(curr.emoji.id).count;
 
             // If acc and curr have same num of votes, pick a random one.
             if (currCount === accCount) return randomBetween(0, 1) ? curr : acc;
@@ -63,6 +64,7 @@ export const defineAgendaTasks = () => {
             return acc;
         }, pollObjs[0]);
 
-        await channel.send(`THE WINNER IS... ***${winner.item}(${winner.emoji})***`);
+        await channel.send(`THE WINNER IS... ***${winner.item}(${winner.emoji.content})***`);
+        await job.remove();
     });
 };

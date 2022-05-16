@@ -1,9 +1,8 @@
 import { SlashCommandBuilder } from '@discordjs/builders';
 import { commandHandler } from '../handler.js';
-import { AGENDA, log } from '../../../app.js';
+import { AGENDA, DISCORD_CLIENT, log } from '../../../app.js';
 import { getRandomResponse } from '../../utils/index.js';
 import { POSITIVE_RESPONSES } from '../../messages/index.js';
-import { EMOJIS } from '../../utils/constants.js';
 import { MessageEmbed } from 'discord.js';
 
 export const POLL_COMMANDS = {
@@ -16,6 +15,12 @@ export const POLL_COMMANDS = {
                 add
                     .setName('add')
                     .setDescription('adds a poll')
+                    .addStringOption(title =>
+                        title
+                            .setName('title')
+                            .setDescription('Set the title of the poll')
+                            .setRequired(true)
+                    )
                     .addStringOption(items =>
                         items
                             .setName('items')
@@ -31,20 +36,27 @@ export const POLL_COMMANDS = {
             ),
         execute: async (interaction) => {
             await commandHandler(interaction, {
-                add: async (items, length) => {
-                    let emojis = EMOJIS;
+                add: async (title, items, length) => {
 
+                    // Get server's custom emojis and create an emoji object
+                    let emojis = interaction.guild.emojis.cache.map(emoji => ({
+                        name: emoji.name,
+                        id: emoji.id,
+                        content: `<:${emoji.name}:${emoji.id}>`
+                    }));
+
+                    // Split each  
                     const pollObjs = items.split(', ').map((item, idx) => {
                         const randomEmoji = getRandomResponse(emojis);
                         emojis.splice(emojis.indexOf(randomEmoji), 1);
                         return {
                             id: idx,
                             item: item,
-                            emoji: getRandomResponse(EMOJIS)
+                            emoji: randomEmoji
                         };
                     });
                     let poll = await interaction.reply({
-                        embeds: [formatPoll(pollObjs)],
+                        embeds: [formatPoll(title, pollObjs)],
                         fetchReply: true
                     });
                     for (const pollObj of pollObjs) {
@@ -61,8 +73,9 @@ export const POLL_COMMANDS = {
     }
 };
 
-const formatPoll = (options) => {
+const formatPoll = (title, options) => {
     return new MessageEmbed()
-        .setTitle('POLL')
-        .setDescription(options.map(option => `React with ${option.emoji} for ***${option.item}*** \n\n`).toString().replaceAll(',', ''));
+        .setTitle(title)
+        .setColor('RANDOM')
+        .setDescription(options.map(option => `React with ${option.emoji.content} for ***${option.item}*** \n\n`).toString().replaceAll(',', ''));
 };
