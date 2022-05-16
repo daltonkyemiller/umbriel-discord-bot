@@ -1,6 +1,7 @@
 import { log, DISCORD_CLIENT } from '../../app.js';
 import { AGENDA } from '../../app.js';
 import { MessageEmbed } from 'discord.js';
+import { randomBetween } from '../utils/index.js';
 
 export const getJobs = async ({ userId, jobName }) => {
     let query = {
@@ -44,5 +45,24 @@ export const defineAgendaTasks = () => {
         } catch (e) {
             log.error(e);
         }
+    });
+
+    AGENDA.define('checkPoll', async (job) => {
+        const { channelId, poll, pollObjs } = job.attrs.data;
+        const channel = await DISCORD_CLIENT.channels.cache.get(channelId);
+        const message = await channel.messages.cache.get(poll);
+
+        // Gets poll with most votes
+        const winner = pollObjs.reduce((acc, curr) => {
+            const accCount = message.reactions.resolve(acc.emoji).count;
+            const currCount = message.reactions.resolve(curr.emoji).count;
+
+            // If acc and curr have same num of votes, pick a random one.
+            if (currCount === accCount) return randomBetween(0, 1) ? curr : acc;
+            if (currCount > accCount) return curr;
+            return acc;
+        }, pollObjs[0]);
+
+        await channel.send(`THE WINNER IS... ***${winner.item}(${winner.emoji})***`);
     });
 };

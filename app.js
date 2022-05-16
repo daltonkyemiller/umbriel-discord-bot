@@ -19,7 +19,7 @@ export const MONGO_CONNECTION_URI = process.env.NODE_ENV !== 'production'
     ? process.env.MONGO_TESTING_URI
     : process.env.MONGO_URI;
 
-export const DISCORD_CLIENT = new DiscordClient({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES] });
+export const DISCORD_CLIENT = new DiscordClient({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.GUILD_MESSAGE_REACTIONS] });
 
 
 export const AGENDA = new Agenda({ db: { address: MONGO_CONNECTION_URI } });

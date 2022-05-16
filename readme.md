@@ -16,7 +16,7 @@ Uses [yarn](https://classic.yarnpkg.com/lang/en/docs/install) for package manage
   at https://discord.com/developers/applications
     - `DISCORD_TESTING_TOKEN='YOUR DISCORD SECRET HERE'`
     - `DISCORD_TESTING_CLIENT='YOUR BOT CLIENT ID HERE'`
-    - `MONGO_URI='YOUR MONGODB CONNECTION URI HERE`
+    - `MONGO_TESTING_URI='YOUR MONGODB URI HERE'`
 - Start server
   `yarn run dev` (uses nodemon and auto-restarts server on change)
   or
@@ -38,5 +38,7 @@ Uses [yarn](https://classic.yarnpkg.com/lang/en/docs/install) for package manage
 Admin commands can only be used by the server creator.
 
 - `/announcements add` **what**, **when** - same as reminder above, but it sends to the whole channel that it is set in
+- `/poll add` **commaSeperatedItems**, **lengthOfPoll** - creates a poll for a specified period of time that can be
+  voted on with emoji reactions.
 - `/clear` **number** - clears most recent messages with amount
 - `/restart` - restarts the bot
