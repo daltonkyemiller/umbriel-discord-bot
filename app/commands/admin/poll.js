@@ -4,6 +4,7 @@ import { AGENDA, DISCORD_CLIENT, log } from '../../../app.js';
 import { getRandomResponse } from '../../utils/index.js';
 import { POSITIVE_RESPONSES } from '../../messages/index.js';
 import { MessageEmbed } from 'discord.js';
+import { STUDENTS } from '../../utils/constants.js';
 
 export const POLL_COMMANDS = {
     poll: {
@@ -38,7 +39,7 @@ export const POLL_COMMANDS = {
             await commandHandler(interaction, {
                 add: async (title, items, length) => {
 
-                    // Get server's custom emojis and create an emoji object
+                    // Map a custom emoji object to each of the server's custom emojis
                     let emojis = interaction.guild.emojis.cache.map(emoji => ({
                         name: emoji.name,
                         id: emoji.id,
@@ -46,12 +47,12 @@ export const POLL_COMMANDS = {
                     }));
 
                     // Split each  
-                    const pollObjs = items.split(', ').map((item, idx) => {
+                    const pollObjs = items.split(',').map((item, idx) => {
                         const randomEmoji = getRandomResponse(emojis);
                         emojis.splice(emojis.indexOf(randomEmoji), 1);
                         return {
                             id: idx,
-                            item: item,
+                            item: item.trim(),
                             emoji: randomEmoji
                         };
                     });
