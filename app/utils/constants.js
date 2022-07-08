@@ -1,5 +1,3 @@
-import { DISCORD_CLIENT } from '../../app.js';
-
 export const STUDENTS = [
     { name: 'Kevin Orgeron', email: 'orgeron.kevin@gmail.com' },
     { name: 'Juan Silva', email: 'juan.silvawd@gmail.com' },
